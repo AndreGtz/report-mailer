@@ -1,0 +1,3 @@
+[submodule "report-template"]
+	path = report-template
+	url = https://github.com/AndreGtz/report-template.git
