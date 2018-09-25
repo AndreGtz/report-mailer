@@ -10,7 +10,9 @@
   "author": "Andregtz",
   "license": "ISC",
   "dependencies": {
+    "canvas": "^1.6.12",
     "chart.js": "^2.7.2",
+    "chartjs-node": "^1.7.1",
     "html-pdf": "^2.2.0",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.21",
