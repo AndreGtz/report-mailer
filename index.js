@@ -8,19 +8,25 @@ const nodemailer = require('nodemailer');
 const generate = async () => {
   const datetime = moment().tz("America/Mexico_City").subtract(1, 'days');
   const user = 1;
-  const data = await request.post({
-    method: 'POST',
-    uri: 'http://localhost:7000/reportes/resumen',
-    body: {
-      usuario: user,
-      fecha: datetime.format('YYYY-MM-DD'),
-    },
-    json: true,
-  }).catch( e => console.log(e));
-  console.log(data);
-  const html = pug.renderFile('report.pug', data);
-  console.log(html);
-  pdf.create(html, { "renderDelay": 5000, format: 'Letter' }).toFile('./reporte-prueba.pdf', function(err, res) {
+  // const data = await request.post({
+  //   method: 'POST',
+  //   uri: 'http://localhost:7000/reportes/resumen',
+  //   body: {
+  //     usuario: user,
+  //     fecha: datetime.format('YYYY-MM-DD'),
+  //   },
+  //   json: true,
+  // }).catch( e => console.log(e));
+  // console.log(data);
+  // const html = pug.renderFile('report-template/report.pug', data);
+  // console.log(html);
+  const html = fs.readFileSync('report-template/report.html', 'utf8');
+  pdf.create(html, {
+    renderDelay: 30000,
+    width: 1280,
+    height: 2000,
+  })
+  .toFile('./reporte-prueba.pdf', function(err, res) {
   if (err) return console.log(err);
   console.log(res); // { filename: '/app/businesscard.pdf' }
 });
