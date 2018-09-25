@@ -1,0 +1,22 @@
+{
+  "name": "report-mailer",
+  "version": "1.0.0",
+  "description": "Sends mails with attached pdf",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andregtz",
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^2.7.2",
+    "html-pdf": "^2.2.0",
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.21",
+    "nodemailer": "^4.6.8",
+    "pug": "^2.0.3",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  }
+}
