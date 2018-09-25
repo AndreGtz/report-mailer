@@ -74,7 +74,7 @@ const generate = async () => {
     }).catch( e => console.log(e));
     for (var i = 0; i < data.units.length; i++) {
       chartJsOptions.data.datasets[0].data = data.units[i].speeds;
-      var chartNode = new ChartjsNode(1280, 606);
+      var chartNode = new ChartjsNode(740, 403);
       const graph = await chartNode.drawChart(chartJsOptions)
       .then(() => {
         return chartNode.getImageBuffer('image/png');
