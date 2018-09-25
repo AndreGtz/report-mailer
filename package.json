@@ -17,6 +17,7 @@
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.21",
     "nodemailer": "^4.6.8",
+    "phantomjs-prebuilt": "^2.1.16",
     "pug": "^2.0.3",
     "request": "^2.88.0",
     "request-promise": "^4.2.2"
