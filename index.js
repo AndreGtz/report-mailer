@@ -82,7 +82,7 @@ const generate = async () => {
       data.units[i].graph = `data:image/png;base64,${graph.toString('base64')}`;
       delete data.units[i].speeds;
     }
-    const html = pug.renderFile('report-template/report.pug', data);
+    const html = pug.renderFile('./report-template/report.pug', data);
     pdf.create(html, {
       renderDelay: 1000,
       height: 1068,
