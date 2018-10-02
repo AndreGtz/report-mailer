@@ -29,7 +29,7 @@ const generate = async () => {
       json: true,
     }).catch(e => console.error(e));
 
-    if (data.units.length) {
+    if (data.units && data.units.length) {
       for (let unitIndex = 0; unitIndex < data.units.length; unitIndex += 1) {
         if (data.units[unitIndex].stops.length) {
           for (let stopIndex = 0; stopIndex < data.units[unitIndex].stops.length; stopIndex += 1) {
