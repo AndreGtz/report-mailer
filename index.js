@@ -31,7 +31,7 @@ const generate = async () => {
 
     if (data.units && data.units.length) {
       for (let unitIndex = 0; unitIndex < data.units.length; unitIndex += 1) {
-        if (data.units[unitIndex].stops.length) {
+        if (data.units[unitIndex].stops && data.units[unitIndex].stops.length) {
           for (let stopIndex = 0; stopIndex < data.units[unitIndex].stops.length; stopIndex += 1) {
             const stop = data.units[unitIndex].stops[stopIndex];
             const response = await request(`https://api.opencagedata.com/geocode/v1/json?key=${geocodingKey}&q=${stop.latitud}%2C${stop.longitud}&no_annotations=1`)
