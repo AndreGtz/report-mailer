@@ -46,6 +46,8 @@ const generate = async () => {
             }
             msleep(1100);
           }
+        } else {
+          data.units[unitIndex].stops = [];
         }
       }
     }
