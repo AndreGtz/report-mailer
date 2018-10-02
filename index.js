@@ -11,7 +11,6 @@ const msleep = millis => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 
 const generate = async () => {
   const datetime = moment().tz('America/Mexico_City').subtract(1, 'days');
   users.forEach(async (user) => {
-    console.log('request usuarios/byReport');
     const usuario = await request.post({
       method: 'POST',
       uri: 'http://localhost:7000/usuarios/byReport',
@@ -20,7 +19,6 @@ const generate = async () => {
       },
       json: true,
     }).catch(e => console.error(e));
-    console.log('result', usuario);
     const data = await request.post({
       method: 'POST',
       uri: 'http://localhost:7000/reportes/resumen',
@@ -30,7 +28,6 @@ const generate = async () => {
       },
       json: true,
     }).catch(e => console.error(e));
-    console.log('data', data);
 
     if (data.units && data.units.length) {
       for (let unitIndex = 0; unitIndex < data.units.length; unitIndex += 1) {
@@ -39,7 +36,6 @@ const generate = async () => {
             const stop = data.units[unitIndex].stops[stopIndex];
             const response = await request(`https://api.opencagedata.com/geocode/v1/json?key=${geocodingKey}&q=${stop.latitud}%2C${stop.longitud}&no_annotations=1`)
             .catch(e => console.error(e));
-            console.log(response);
             const resObj = JSON.parse(response);
             if (resObj.results) {
               data
@@ -50,12 +46,10 @@ const generate = async () => {
             msleep(1100);
           }
         } else {
-          console.log('units has no stops', unitIndex);
           data.units[unitIndex].stops = [];
         }
       }
     }
-    console.log('rendering pug');
     const html = pug.renderFile('./report-template/report.pug', data);
     pdf.create(html, {
       renderDelay: 1000,
