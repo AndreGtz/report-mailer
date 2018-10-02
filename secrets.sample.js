@@ -1,9 +1,10 @@
 const SECRETS = {
+  geocodingKey: 'zxxxxxxxxxxxxxxxx',
   account: {
     user: 'mail@sample.com',
-    pass: 'apassphrase'
+    pass: 'apassphrase',
   },
-  usuarios: [1], 
+  usuarios: [1],
 };
 
 module.exports = SECRETS;
