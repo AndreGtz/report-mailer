@@ -5,6 +5,7 @@ const SECRETS = {
     pass: 'apassphrase',
   },
   usuarios: [1],
+  serverurl: 'http://localhost:7000',
 };
 
 module.exports = SECRETS;

@@ -1,24 +1,24 @@
+/* eslint-env node */
+/* eslint no-console: ["error", { allow: ["info","error"] }] */
+
 const moment = require('moment-timezone');
 const request = require('request-promise');
 const pug = require('pug');
 const pdf = require('html-pdf');
 const nodemailer = require('nodemailer');
-const { account, geocodingKey } = require('./secrets');
-const users = require('./secrets').usuarios;
+const { account, geocodingKey, serverurl } = require('./secrets');
 
 const msleep = millis => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, millis);
 
 const generate = async () => {
   const datetime = moment().tz('America/Mexico_City').subtract(1, 'days');
-  users.forEach(async (user) => {
-    const usuario = await request.post({
-      method: 'POST',
-      uri: 'http://localhost:7000/usuarios/byReport',
-      body: {
-        usuario: user,
-      },
-      json: true,
-    }).catch(e => console.error(e));
+  const users = await request.post({
+    method: 'POST',
+    uri: `${serverurl}/usuarios/byReport`,
+    json: true,
+  }).catch(e => console.error(e));
+
+  users.forEach(async (usuario) => {
     const data = await request.post({
       method: 'POST',
       uri: 'http://localhost:7000/reportes/resumen',
@@ -35,7 +35,7 @@ const generate = async () => {
           for (let stopIndex = 0; stopIndex < data.units[unitIndex].stops.length; stopIndex += 1) {
             const stop = data.units[unitIndex].stops[stopIndex];
             const response = await request(`https://api.opencagedata.com/geocode/v1/json?key=${geocodingKey}&q=${stop.latitud}%2C${stop.longitud}&no_annotations=1`)
-            .catch(e => console.error(e));
+              .catch(e => console.error(e));
             const resObj = JSON.parse(response);
             if (resObj.results) {
               data
@@ -57,7 +57,7 @@ const generate = async () => {
       width: 640,
       quality: '100',
     })
-      // .toFile('./prueba.pdf', (err, res) => {
+      // .toFile(`./prueba-${usuario.idUsuario}.pdf`, (err, res) => {
       //   if (err) return console.error(err);
       //   return console.info(res);
       // });
