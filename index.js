@@ -6,7 +6,13 @@ const request = require('request-promise');
 const pug = require('pug');
 const pdf = require('html-pdf');
 const nodemailer = require('nodemailer');
-const { account, geocodingKey, serverurl } = require('./secrets');
+const jwt = require('jsonwebtoken');
+const {
+  account,
+  geocodingKey,
+  serverurl,
+  secretKey,
+} = require('./secrets');
 
 const msleep = millis => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, millis);
 
@@ -30,17 +36,24 @@ const generate = async () => {
     }).catch(e => console.error(e));
 
     if (data.units && data.units.length) {
-      const hasVehicles = data.units.find((unit) => {
-        return (unit.unit.gpsModel !== 'qbit');
-      });
+      const hasVehicles = data.units.find(unit => unit.unit.gpsModel !== 'qbit');
 
       if (hasVehicles) {
         const fuelPrices = await request(`http://localhost:7000/combustibles/last/${usuario.estado}/${usuario.municipio}/`)
-        .catch((error) => console.log(error));
+          .catch(error => console.error(error));
         data.fuelPrices = JSON.parse(fuelPrices);
       }
 
       for (let unitIndex = 0; unitIndex < data.units.length; unitIndex += 1) {
+        try {
+          const token = jwt.sign({
+            unidad: data.units[unitIndex].idUnidad,
+            fecha: datetime.format('YYYY-MM-DD'),
+          }, secretKey, { expiresIn: 60 * 60 * 24 * 30 });
+          data.units[unitIndex].token = token;
+        } catch (e) {
+          console.error(e);
+        }
         if (data.units[unitIndex].stops && data.units[unitIndex].stops.length) {
           for (let stopIndex = 0; stopIndex < data.units[unitIndex].stops.length; stopIndex += 1) {
             const stop = data.units[unitIndex].stops[stopIndex];

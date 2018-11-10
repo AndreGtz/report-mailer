@@ -6,6 +6,7 @@ const SECRETS = {
   },
   usuarios: [1],
   serverurl: 'http://localhost:7000',
+  secretKey: 's3cr3t',
 };
 
 module.exports = SECRETS;
