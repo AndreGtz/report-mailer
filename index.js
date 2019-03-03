@@ -16,6 +16,11 @@ const {
 
 const msleep = millis => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, millis);
 
+const getMails = (mailString) => {
+  const split = mailString.split(/\s|,\s*/g);
+  return split.join(', ');
+};
+
 const generate = async () => {
   const datetime = moment().tz('America/Mexico_City').subtract(1, 'days');
   const users = await request.post({
@@ -102,7 +107,7 @@ const generate = async () => {
         // setup email data with unicode symbols
         const mailOptions = {
           from: '"No responder" <reportes@caebes.com>', // sender address
-          to: usuario.correo, // list of receivers
+          to: getMails(usuario.correo), // list of receivers
           subject: 'Reporte del día', // Subject line
           text: 'Adjunto el reporte del día', // plain text body
           html: '<b>Adjunto el reporte del día</b>', // html body
