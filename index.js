@@ -141,8 +141,8 @@ const updateEmergencias = async (emergencias) => {
 };
 
 const generateAlertsSOS = async () => {
-  const datetime = moment().tz('America/Mexico_City');
-  const today = datetime.format('YYYY-MM-DD');
+  const datetime = moment().tz('America/Mexico_City').subtract(1, 'days');
+  const yesterday = datetime.format('YYYY-MM-DD');
   const user = process.env.USER;
   const password = process.env.PASSWORD;
 
@@ -169,7 +169,7 @@ const generateAlertsSOS = async () => {
   for (let i = 0; i < usuarios.length; i++) {
     const emergencias = await request.get({
       method: 'GET',
-      uri: `${serverurl}/emergencia?policia=${usuarios[i].id}&startDate=${today}&endDate=${today}`,
+      uri: `${serverurl}/emergencia?policia=${usuarios[i].id}&startDate=${yesterday}&endDate=${yesterday}`,
       json: true,
       headers: {
         Authorization: auth.token,
@@ -192,7 +192,7 @@ const generateAlertsSOS = async () => {
       },
     }).catch(e => console.error(e));
     const data = {
-      date: today,
+      date: yesterday,
       registros: policias,
       dateFormat(date) {
         return moment(date).tz('America/Mexico_City').format('HH:mm:ss');
