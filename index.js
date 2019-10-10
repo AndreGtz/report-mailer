@@ -91,7 +91,7 @@ const generate = async () => {
             // setup email data with unicode symbols
             const mailOptions = {
               from: '"No responder" <reportes@caebes.com>', // sender address
-              to: getMails(usuario.correo), // list of receivers
+              to: `${getMails(usuario.correo)}, asvieyra@caebes.com`, // list of receivers
               subject: 'Reporte del día', // Subject line
               text: 'Adjunto el reporte de la semana', // plain text body
               html: '<b>Adjunto el reporte de la semana</b>', // html body
