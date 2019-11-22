@@ -22,7 +22,7 @@ const generate = async () => {
     method: 'POST',
     uri: `${serverurl}/usuarios/byReport`,
     body: {
-      reportFrecuency: 1, // semanal
+      reportFrecuency: 2, // mensual
     },
     json: true,
   }).catch(e => console.error(e));
@@ -30,7 +30,7 @@ const generate = async () => {
   users.forEach(async (usuario) => {
     const data = await request.post({
       method: 'POST',
-      uri: 'http://localhost:7000/reportes/resumen/semanal',
+      uri: 'http://localhost:7000/reportes/resumen/mensual',
       body: {
         usuario: usuario.idUsuario,
         fecha: datetime.format('YYYY-MM-DD'),
