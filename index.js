@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 const {
   account,
   serverurl,
+  token,
 } = require('./secrets');
 
 const getMails = (mailString) => {
@@ -24,6 +25,9 @@ const generate = async () => {
     body: {
       reportFrecuency: 0, // diario
     },
+    auth: {
+      bearer: token,
+    },
     json: true,
   }).catch(e => console.error(e));
 
@@ -36,10 +40,19 @@ const generate = async () => {
     const data = await request.get({
       method: 'GET',
       uri: `http://localhost:7000/unidades/usuarios/${usuario.idUsuario}`,
+      auth: {
+        bearer: token,
+      },
       json: true,
     }).catch(e => console.error(e));
 
-    const fuelPrices = await request(`http://localhost:7000/combustibles/last/${usuario.estado}/${usuario.municipio}/`)
+    const fuelPrices = await request.get({
+      method: 'GET',
+      uri: `http://localhost:7000/combustibles/last/${usuario.estado}/${usuario.municipio}/`,
+      auth: {
+        bearer: token,
+      },
+    })
       .catch(error => console.error(error));
     unitsInfo.fuelPrices = JSON.parse(fuelPrices);
 
@@ -52,6 +65,9 @@ const generate = async () => {
           body: {
             unidad: unidad.idUnidad,
             fecha: datetime.format('YYYY-MM-DD'),
+          },
+          auth: {
+           bearer: token,
           },
           json: true,
         });
